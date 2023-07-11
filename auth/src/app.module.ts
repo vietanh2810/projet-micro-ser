@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
       host: 'localhost',
       port: 5432,
       database: 'micro_auth',
-      username: 'postgres',
+      username: 'bvietanh2810',
       password: null,
       entities: ['dist/**/*.entity.{ts,js}'],
       synchronize: true, // never true in production!
