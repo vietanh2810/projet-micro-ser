@@ -11,7 +11,7 @@ import { ProductModule } from './product/product.module';
       host: 'localhost',
       port: 5432,
       database: 'micro_product',
-      username: 'elodiejolo',
+      username: 'bvietanh2810',
       password: null,
       entities: ['dist/**/*.entity.{ts,js}'],
       synchronize: true, // never true in production!
