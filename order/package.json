@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "proto:install": "npm i https://gitpkg.now.sh/vietanh2810/projet-micro-ser/proto?main",
+    "proto:install": "npm i https://gitpkg.now.sh/vietanh2810/projet-micro-ser/proto?develop",
     "proto:order": "protoc --plugin=node_modules/.bin/protoc-gen-ts_proto -I=./node_modules/proto --ts_proto_out=src/order/proto/ node_modules/proto/order.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
     "proto:product": "protoc --plugin=node_modules/.bin/protoc-gen-ts_proto -I=./node_modules/proto --ts_proto_out=src/order/proto/ node_modules/proto/product.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
     "proto:all": "npm run proto:order && npm run proto:product"
@@ -34,7 +34,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "pg": "^8.11.1",
-    "proto": "https://gitpkg.now.sh/vietanh2810/projet-micro-ser/proto?main",
+    "proto": "https://gitpkg.now.sh/vietanh2810/projet-micro-ser/proto?develop",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.17"
