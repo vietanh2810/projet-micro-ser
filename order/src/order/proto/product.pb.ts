@@ -38,6 +38,7 @@ export interface FindOneResponse {
 export interface DecreaseStockRequest {
   id: number;
   orderId: number;
+  quantity: number;
 }
 
 export interface DecreaseStockResponse {

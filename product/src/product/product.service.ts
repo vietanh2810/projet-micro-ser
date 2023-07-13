@@ -54,7 +54,7 @@ export class ProductService {
   public async decreaseStock({
     id,
     orderId,
-    quantity
+    quantity,
   }: DecreaseStockRequestDto): Promise<DecreaseStockResponse> {
     const product: Product = await this.repository.findOne({
       select: ['id', 'stock'],
@@ -79,7 +79,9 @@ export class ProductService {
       };
     }
 
-    await this.repository.update(product.id, { stock: product.stock - quantity });
+    await this.repository.update(product.id, {
+      stock: product.stock - quantity,
+    });
     await this.decreaseLogRepository.insert({ product, orderId });
 
     return { error: null, status: HttpStatus.OK };
