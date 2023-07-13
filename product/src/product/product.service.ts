@@ -1,10 +1,17 @@
-
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entity/product.entity';
-import { CreateProductRequestDto, DecreaseStockRequestDto, FindOneRequestDto } from './product.dto';
-import { CreateProductResponse, DecreaseStockResponse, FindOneResponse } from './product.pb';
+import {
+  CreateProductRequestDto,
+  DecreaseStockRequestDto,
+  FindOneRequestDto,
+} from './product.dto';
+import {
+  CreateProductResponse,
+  DecreaseStockResponse,
+  FindOneResponse,
+} from './product.pb';
 import { StockDecreaseLog } from './entity/stock-decrease-log.entity';
 
 @Injectable()
@@ -19,13 +26,19 @@ export class ProductService {
     const product: Product = await this.repository.findOne({ where: { id } });
 
     if (!product) {
-      return { data: null, error: ['Product not found'], status: HttpStatus.NOT_FOUND };
+      return {
+        data: null,
+        error: ['Product not found'],
+        status: HttpStatus.NOT_FOUND,
+      };
     }
 
     return { data: product, error: null, status: HttpStatus.OK };
   }
 
-  public async createProduct(payload: CreateProductRequestDto): Promise<CreateProductResponse> {
+  public async createProduct(
+    payload: CreateProductRequestDto,
+  ): Promise<CreateProductResponse> {
     const product: Product = new Product();
 
     product.name = payload.name;
@@ -38,8 +51,15 @@ export class ProductService {
     return { id: product.id, error: null, status: HttpStatus.OK };
   }
 
-  public async decreaseStock({ id, orderId }: DecreaseStockRequestDto): Promise<DecreaseStockResponse> {
-    const product: Product = await this.repository.findOne({ select: ['id', 'stock'], where: { id } });
+  public async decreaseStock({
+    id,
+    orderId,
+    quantity
+  }: DecreaseStockRequestDto): Promise<DecreaseStockResponse> {
+    const product: Product = await this.repository.findOne({
+      select: ['id', 'stock'],
+      where: { id },
+    });
 
     if (!product) {
       return { error: ['Product not found'], status: HttpStatus.NOT_FOUND };
@@ -47,14 +67,19 @@ export class ProductService {
       return { error: ['Stock too low'], status: HttpStatus.CONFLICT };
     }
 
-    const isAlreadyDecreased: number = await this.decreaseLogRepository.count({ where: { orderId } });
+    const isAlreadyDecreased: number = await this.decreaseLogRepository.count({
+      where: { orderId },
+    });
 
     if (isAlreadyDecreased) {
       // Idempotence
-      return { error: ['Stock already decreased'], status: HttpStatus.CONFLICT };
+      return {
+        error: ['Stock already decreased'],
+        status: HttpStatus.CONFLICT,
+      };
     }
 
-    await this.repository.update(product.id, { stock: product.stock - 1 });
+    await this.repository.update(product.id, { stock: product.stock - quantity });
     await this.decreaseLogRepository.insert({ product, orderId });
 
     return { error: null, status: HttpStatus.OK };

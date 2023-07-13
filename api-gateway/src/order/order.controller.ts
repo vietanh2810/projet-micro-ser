@@ -36,6 +36,7 @@ export class OrderController implements OnModuleInit {
     const body: CreateOrderRequest = req.body;
 
     body.userId = <number>req.user;
+    console.log(body);
 
     return this.svc.createOrder(body);
   }
