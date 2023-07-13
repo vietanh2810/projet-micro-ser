@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
 
 @Module({
@@ -11,13 +10,12 @@ import { OrderModule } from './order/order.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      database: 'micro_product',
-      username: 'honzikoi',
+      database: 'micro_order',
+      username: 'bvietanh2810',
       password: null,
       entities: ['dist/**/*.entity.{ts,js}'],
       synchronize: true, // never true in production!
     }),
-    ProductModule,
     OrderModule,
   ],
   controllers: [AppController],
