@@ -10,7 +10,7 @@ import { OrderController } from './order.controller';
         name: ORDER_SERVICE_NAME,
         transport: Transport.GRPC,
         options: {
-          url: '0.0.0.0:50052',
+          url: '0.0.0.0:40052',
           package: ORDER_PACKAGE_NAME,
           protoPath: 'node_modules/proto/order.proto',
         },

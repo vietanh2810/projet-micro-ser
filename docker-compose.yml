@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - auth
+      - product
+      - order
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - 4000:40051
+    depends_on:
+      - micro_auth
+
+  product:
+    build:
+      context: ./product
+      dockerfile: Dockerfile
+    ports:
+      - 5050:40053
+    depends_on:
+      - micro_product
+
+  order:
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    ports:
+      - 6000:40052
+    depends_on:
+      - micro_order
+
+  micro_auth:
+    image: postgres
+    env_file: .env.auth
+    volumes:
+      - ./pgdata/auth:/var/lib/postgresql/data
+    command: postgres -c 'password_encryption=scram-sha-256' -c 'wal_level=logical' -c 'max_wal_senders=8' -c 'wal_keep_segments=8'
+
+  micro_product:
+    image: postgres
+    env_file: .env.product
+    volumes:
+      - ./pgdata/product:/var/lib/postgresql/data
+    command: postgres -c 'password_encryption=scram-sha-256' -c 'wal_level=logical' -c 'max_wal_senders=8' -c 'wal_keep_segments=8'
+
+  micro_order:
+    image: postgres
+    env_file: .env.order
+    volumes:
+      - ./pgdata/order:/var/lib/postgresql/data
+    command: postgres -c 'password_encryption=scram-sha-256' -c 'wal_level=logical' -c 'max_wal_senders=8' -c 'wal_keep_segments=8'
